@@ -18,6 +18,7 @@
 		CED7F1742A5E1AB00076BB0C /* JetpackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED7F1732A5E1AB00076BB0C /* JetpackTests.swift */; };
 		CED7F17E2A5E1AB00076BB0C /* JetpackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED7F17D2A5E1AB00076BB0C /* JetpackUITests.swift */; };
 		CED7F1802A5E1AB00076BB0C /* JetpackUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED7F17F2A5E1AB00076BB0C /* JetpackUITestsLaunchTests.swift */; };
+		CED7F18D2A5E1E940076BB0C /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED7F18C2A5E1E940076BB0C /* Obstacle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		CED7F1792A5E1AB00076BB0C /* JetpackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JetpackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED7F17D2A5E1AB00076BB0C /* JetpackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackUITests.swift; sourceTree = "<group>"; };
 		CED7F17F2A5E1AB00076BB0C /* JetpackUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JetpackUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CED7F18C2A5E1E940076BB0C /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				CED7F15D2A5E1AAF0076BB0C /* Actions.sks */,
 				CED7F15F2A5E1AAF0076BB0C /* GameScene.swift */,
 				CED7F1612A5E1AB00076BB0C /* GameViewController.swift */,
+				CED7F18C2A5E1E940076BB0C /* Obstacle.swift */,
 				CED7F1632A5E1AB00076BB0C /* Main.storyboard */,
 				CED7F1662A5E1AB00076BB0C /* Assets.xcassets */,
 				CED7F1682A5E1AB00076BB0C /* LaunchScreen.storyboard */,
@@ -266,6 +269,7 @@
 			files = (
 				CED7F1602A5E1AAF0076BB0C /* GameScene.swift in Sources */,
 				CED7F1622A5E1AB00076BB0C /* GameViewController.swift in Sources */,
+				CED7F18D2A5E1E940076BB0C /* Obstacle.swift in Sources */,
 				CED7F15A2A5E1AAF0076BB0C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

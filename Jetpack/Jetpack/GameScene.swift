@@ -18,27 +18,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let playerCategory: UInt32 = 0x1 << 0
     private let obstacleCategory: UInt32 = 0x1 << 1
 
-    // Inside the GameScene class
-
-    private func spawnObstacle() {
-        let obstacle = Obstacle()
-        obstacle.position = CGPoint(x: frame.maxX + obstacle.size.width / 2, y: frame.midY)
-        addChild(obstacle)
-
-        let moveLeft = SKAction.moveBy(x: -(frame.size.width + obstacle.size.width), y: 0, duration: 4)
-        let remove = SKAction.removeFromParent()
-        let sequence = SKAction.sequence([moveLeft, remove])
-        obstacle.run(sequence)
-    }
-
-    func didBegin(_ contact: SKPhysicsContact) {
-        if contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory {
-            gameOver()
-        } else if contact.bodyA.categoryBitMask == obstacleCategory && contact.bodyB.categoryBitMask == playerCategory {
-            gameOver()
-        }
-    }
-    
     override func didMove(to view: SKView) {
         // Set up physics world
         physicsWorld.contactDelegate = self
@@ -67,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(playButton)
     }
 
-    override func touchesBegan( touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
             let location = touch.location(in: self)
 
@@ -85,26 +64,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    override func touchesEnded( touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isPlayerJumping {
             isPlayerJumping = false
         }
     }
 
     func playGame() {
-        // Start game logic here
+        // Reset score
+        score = 0
+        scoreLabel.text = "Score: (score)"
 
-        // Spawn obstacles
+        // Spawn obstacles at regular intervals
+        let spawnAction = SKAction.run { [weak self] in
+            self?.spawnObstacle()
+        }
+        let waitAction = SKAction.wait(forDuration: 1.5) // Adjust the duration as needed
+        let sequenceAction = SKAction.sequence([spawnAction, waitAction])
+        let repeatAction = SKAction.repeatForever(sequenceAction)
+        run(repeatAction, withKey: "spawnObstacles")
 
-        // Update score
-
-        // Handle collisions
-
-        // Game over condition
+        // Start updating the score
+        let updateScoreAction = SKAction.run { [weak self] in
+            self?.addScore()
+        }
+        let delayAction = SKAction.wait(forDuration: 1.0) // Adjust the duration as needed
+        let scoreSequence = SKAction.sequence([updateScoreAction, delayAction])
+        let scoreRepeatAction = SKAction.repeatForever(scoreSequence)
+        run(scoreRepeatAction, withKey: "updateScore")
     }
 
-    func jump() {
-        // Implement player jumping logic
+    func spawnObstacle() {
+        let obstacle = Obstacle()
+        obstacle.position = CGPoint(x: frame.maxX + obstacle.size.width / 2, y: frame.midY)
+        addChild(obstacle)
+
+        let moveLeft = SKAction.moveBy(x: -(frame.size.width + obstacle.size.width), y: 0, duration: 4)
+        let remove = SKAction.removeFromParent()
+        let sequence = SKAction.sequence([moveLeft, remove])
+        obstacle.run(sequence)
+    }
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory {
+            gameOver()
+        } else if contact.bodyA.categoryBitMask == obstacleCategory && contact.bodyB.categoryBitMask == playerCategory {
+            gameOver()
+        }
     }
 
     func addScore() {
@@ -113,6 +119,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func gameOver() {
-        // Implement game over logic
+        // Stop obstacle spawning and score updating actions
+        removeAction(forKey: "spawnObstacles")
+        removeAction(forKey: "updateScore")
+
+        // Implement game over logic here
+        // Show "Game Over" text, player score, and reset button
     }
+    
+    func jump() {
+        // Implement player jumping logic
+    }
+
 }
