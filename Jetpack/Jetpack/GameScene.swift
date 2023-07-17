@@ -23,12 +23,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
 
         // Set up background
-        let background = SKSpriteNode(imageNamed: "background")
+        let background = SKSpriteNode(imageNamed: "cityskyline")
         background.position = CGPoint(x: frame.midX, y: frame.midY)
+        background.scene?.scaleMode = .resizeFill
         addChild(background)
 
         // Set up player
-        player = SKSpriteNode(imageNamed: "player")
+        player = SKSpriteNode(imageNamed: "catstronaut")
         player.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(player)
 
@@ -40,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // Add play button
         let playButton = SKLabelNode(fontNamed: "Helvetica")
-        playButton.text = "PLAY"
+        playButton.text = ""
         playButton.fontSize = 50
         playButton.position = CGPoint(x: frame.midX, y: frame.midY)
         addChild(playButton)
