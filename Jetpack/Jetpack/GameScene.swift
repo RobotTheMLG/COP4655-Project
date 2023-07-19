@@ -14,26 +14,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var isPlayerJumping = false
     private var scoreLabel: SKLabelNode!
     private var score = 0
+    private var isMovingPlayer = false
 
     private let playerCategory: UInt32 = 0x1 << 0
     private let obstacleCategory: UInt32 = 0x1 << 1
 
     override func didMove(to view: SKView) {
+        
+        //Call to scrolling background function
+        createBackground()
+        createSprite()
         // Set up physics world
         physicsWorld.contactDelegate = self
 
-        // Set up background
-        let background = SKSpriteNode(imageNamed: "cityskyline")
-        background.position = CGPoint(x: frame.midX, y: frame.midY)
-        background.scene?.scaleMode = .resizeFill
-        addChild(background)
+        //Scrolling background
+        func createBackground() {
+            let backgroundTexture = SKTexture(imageNamed: "Test")
+            let moveBackground = SKAction.move(by: CGVector(dx: -backgroundTexture.size().width, dy: 0), duration: 5)
+            let shiftBackground = SKAction.move(by: CGVector(dx: backgroundTexture.size().width, dy: 0), duration: 0)
+            let moveBackgroundForever = SKAction.repeatForever(SKAction.sequence([moveBackground, shiftBackground]))
+            
+            for i in 0..<2{
+                let background = SKSpriteNode(texture: backgroundTexture)
+                background.anchorPoint = CGPoint(x:0.5, y: 0.6)
+                background.position = CGPoint(x: backgroundTexture.size().width * CGFloat(i), y: frame.midY)
+                background.size.height = 720
+                background.run(moveBackgroundForever)
+                addChild(background)
+            }
+        }
 
-        // Set up player
-        player = SKSpriteNode(imageNamed: "catstronaut")
-        player.position = CGPoint(x: frame.midX, y: frame.midY)
-        addChild(player)
-
-        // Set up score label
+        //Player catstronaut sprite
+        func createSprite() {
+            player = SKSpriteNode(imageNamed: "catstronaut")
+            player.position = CGPoint(x: frame.midX, y: frame.midY)
+            player.size.height = 70
+            player.size.width = 70
+            addChild(player)
+        }
+            
+        /* Set up score label
         scoreLabel = SKLabelNode(fontNamed: "Helvetica")
         scoreLabel.fontSize = 30
         scoreLabel.position = CGPoint(x: frame.maxX - 100, y: frame.maxY - 50)
@@ -44,32 +64,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playButton.text = ""
         playButton.fontSize = 50
         playButton.position = CGPoint(x: frame.midX, y: frame.midY)
-        addChild(playButton)
+        addChild(playButton)*/
     }
 
+    //Function to touch start
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let location = touch.location(in: self)
-
-            if let playButton = childNode(withName: "PLAY") as? SKLabelNode {
-                if playButton.contains(location) {
-                    playGame()
-                    playButton.removeFromParent()
-                }
-            }
-
-            if !isPlayerJumping {
-                jump()
-                isPlayerJumping = true
-            }
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: self)
+        
+        if player.contains(touchLocation) {
+            isMovingPlayer = true
         }
     }
-
+    
+    //Function to have catstronaut follow player touch
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        let touchLocation = touch.location(in: self)
+        
+        movePlayer(to: touchLocation)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isPlayerJumping {
-            isPlayerJumping = false
-        }
+        isMovingPlayer = false
     }
+
+    //Function to move catstronaut sprite
+    func movePlayer(to position: CGPoint) {
+        let moveAction = SKAction.move(to: position, duration: 0.1)
+        player.run(moveAction)
+    }
+    
 
     func playGame() {
         // Reset score
