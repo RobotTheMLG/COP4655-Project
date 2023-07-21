@@ -26,11 +26,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Calls to background, player sprite, and enemy sprite
         createBackground()
         createSprite()
+
         
         // Set up physics world
         physicsWorld.contactDelegate = self
         
         
+
+
+        // Set up physics world
+        physicsWorld.contactDelegate = self
+
+
+
         createEnemySprite()
         
         //Set up physics world
@@ -75,6 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemy.size.height = 50
             enemy.size.width = 50
             addChild(enemy)
+
         
             
             //Enemey space fish sprite
@@ -110,116 +119,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         /*Set up score label
-         
-         scoreLabel = SKLabelNode(fontNamed: "Helvetica")
-         scoreLabel.fontSize = 30
-         scoreLabel.position = CGPoint(x: frame.maxX - 100, y: frame.maxY - 50)
-         addChild(scoreLabel)
-         
-         // Add play button
-         let playButton = SKLabelNode(fontNamed: "Helvetica")
-         playButton.text = ""
-         playButton.fontSize = 50
-         playButton.position = CGPoint(x: frame.midX, y: frame.midY)
-         addChild(playButton)*/
-        
-        
-        //Function to touch start
-        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-            guard let touch = touches.first else { return }
-            let touchLocation = touch.location(in: self)
-            
-            if player.contains(touchLocation) {
-                isMovingPlayer = true
-            }
-        }
-        
-        //Function to have catstronaut follow player touch
-        override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-            guard let touch = touches.first else { return }
-            let touchLocation = touch.location(in: self)
-            
-            movePlayer(to: touchLocation)
-        }
-        
-        //Function to stop catstronaut moving when screen is not touched
-        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-            isMovingPlayer = false
-        }
-        
-        //Function to move catstronaut sprite
-        func movePlayer(to position: CGPoint) {
-            let moveAction = SKAction.move(to: position, duration: 0.1)
-            player.run(moveAction)
-        }
-        
-        
-        func playGame() {
-            //Reset score
-            score = 0
-            scoreLabel.text = "Score: (score)"
-            
-            //Spawn obstacles at regular intervals
-            let spawnAction = SKAction.run { [weak self] in
-                self?.spawnObstacle()
-            }
-            let waitAction = SKAction.wait(forDuration: 1.5) // Adjust the duration as needed
-            let sequenceAction = SKAction.sequence([spawnAction, waitAction])
-            let repeatAction = SKAction.repeatForever(sequenceAction)
-            run(repeatAction, withKey: "spawnObstacles")
-            
-            //Start updating the score
-            let updateScoreAction = SKAction.run { [weak self] in
-                self?.addScore()
-            }
-            let delayAction = SKAction.wait(forDuration: 1.0) // Adjust the duration as needed
-            let scoreSequence = SKAction.sequence([updateScoreAction, delayAction])
-            let scoreRepeatAction = SKAction.repeatForever(scoreSequence)
-            run(scoreRepeatAction, withKey: "updateScore")
-        }
-        
-        func spawnObstacle() {
-            let obstacle = Obstacle()
-            obstacle.position = CGPoint(x: frame.maxX + obstacle.size.width / 2, y: frame.midY)
-            addChild(obstacle)
-            
-            let moveLeft = SKAction.moveBy(x: -(frame.size.width + obstacle.size.width), y: 0, duration: 4)
-            let remove = SKAction.removeFromParent()
-            let sequence = SKAction.sequence([moveLeft, remove])
-            obstacle.run(sequence)
-        }
-        
-        func didBegin(_ contact: SKPhysicsContact) {
-            if (contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory)
-                || (contact.bodyA.categoryBitMask == obstacleCategory && contact.bodyB.categoryBitMask == playerCategory) {
-                //Function to lower score of player if they hit obstacle
-            } else if (contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == enemyCategory)
-                        || (contact.bodyA.categoryBitMask == enemyCategory && contact.bodyB.categoryBitMask == playerCategory) {
-                //Function to increase player score if player touches fish
-            }
-        }
-        
-        func addScore() {
-            score += 1
-            scoreLabel.text = "Score: (score)"
-        }
-        
-        /*func gameOver() {
-         // Stop obstacle spawning and score updating actions
-         removeAction(forKey: "spawnObstacles")
-         removeAction(forKey: "updateScore")
-         
-         // Implement game over logic here
-         // Show "Game Over" text, player score, and reset button
-         }*/
-        
+
     }
     
     //Function to touch start
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
-        
         
         
         //Function to touch start
