@@ -18,14 +18,14 @@
 //Imports
 import SpriteKit
 
-var obstacleCategory: UInt32 = 0x1 << 0
+var obstacleCategory: UInt32 = 0x1 << 1
 var playerCategory: UInt32 = 0x1 << 0
 
 //This is the obstacle class
 class Obstacle: SKSpriteNode {
 
     init() {
-        let texture = SKTexture(imageNamed: "obstacle")
+        let texture = SKTexture(imageNamed: "SpaceFish") // Use "SpaceFish" image for the obstacle
         super.init(texture: texture, color: .clear, size: texture.size())
 
         //Set up physics body

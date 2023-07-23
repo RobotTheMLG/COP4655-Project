@@ -57,6 +57,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontSize = 20
         
         addChild(scoreLabel)
+        
+        // Set up player category
+        player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
+        player.physicsBody?.categoryBitMask = playerCategory
+        player.physicsBody?.collisionBitMask = obstacleCategory
+        player.physicsBody?.contactTestBitMask = obstacleCategory
+        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.allowsRotation = false
+        player.physicsBody?.restitution = 0.5
+        player.physicsBody?.linearDamping = 0.1
+        
+        // Set up enemy category
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2)
+        enemy.physicsBody?.categoryBitMask = obstacleCategory
+        enemy.physicsBody?.collisionBitMask = playerCategory
+        enemy.physicsBody?.contactTestBitMask = playerCategory
     }
     
     //Set screen safe zone
@@ -116,18 +132,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Function to create player catstronaut sprite
     func createPlayerSprite() {
-        player = SKSpriteNode(imageNamed: "Catstronaut")
+        player = SKSpriteNode(imageNamed: "catstronaut")
         player.position = CGPoint(x: frame.midX, y: frame.midY)
         self.player.zPosition = 2.0
-        player.size.height = 70
-        player.size.width = 70
-        
+        player.size = CGSize(width: 70, height: 70) // Adjust the player size if needed
+
+        // Set up physics body for the player
+        player.physicsBody = SKPhysicsBody(circleOfRadius: player.size.width / 2)
+        player.physicsBody?.categoryBitMask = playerCategory
+        player.physicsBody?.collisionBitMask = obstacleCategory
+        player.physicsBody?.contactTestBitMask = obstacleCategory
+        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.allowsRotation = false
+        player.physicsBody?.restitution = 0.5
+        player.physicsBody?.linearDamping = 0.1
+
         addChild(player)
     }
 
     //Function to create enemey space fish sprite
     func createEnemySprite() {
-        enemy = SKSpriteNode(imageNamed: "SpaceFish")
+        enemy = Obstacle() // Use the Obstacle class for the enemy
         enemy.position = CGPoint(x: frame.maxX + enemy.size.width / 2, y: frame.midY)
         enemy.zPosition = 1.0
         enemy.size.height = 70
@@ -234,28 +259,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          obstacle.physicsBody?.velocity = initialImpulse
      }
      
-     func didBegin(_ contact: SKPhysicsContact) {
-         if contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory {
-             gameOver()
-         }
-         
-         else if contact.bodyA.categoryBitMask == obstacleCategory && contact.bodyB.categoryBitMask == playerCategory {
-             gameOver()
-         }
-     }
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory {
+            gameOver()
+            
+        } else if contact.bodyA.categoryBitMask == obstacleCategory && contact.bodyB.categoryBitMask == playerCategory {
+            gameOver()
+        }
+    }
      
      func addScore() {
          score += 1
          scoreLabel?.text = "Score: \(score)"
      }
      
-     func gameOver() {
-         // Stop obstacle spawning and score updating actions
-         removeAction(forKey: "spawnObstacles")
-         removeAction(forKey: "updateScore")
-         
-         //Show "Game Over" text, player score, and reset button
-     }
+    func gameOver() {
+        // Stop obstacle spawning and score updating actions
+        removeAction(forKey: "spawnObstacles")
+        removeAction(forKey: "updateScore")
+        
+        // Show "Game Over" text, player score, and reset button
+        let gameOverLabel = SKLabelNode(text: "Game Over")
+        gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
+        gameOverLabel.fontName = "Helvetica-Bold"
+        gameOverLabel.fontColor = .red
+        gameOverLabel.fontSize = 50
+        addChild(gameOverLabel)
+    }
     
 }
 
