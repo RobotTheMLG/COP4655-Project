@@ -45,8 +45,8 @@ class GameViewController: UIViewController {
                     }
                     
                 view.ignoresSiblingOrder = true
-                view.showsFPS = true
-                view.showsNodeCount = true
+                view.showsFPS = false
+                view.showsNodeCount = false
                 }
             }
         }
@@ -54,12 +54,8 @@ class GameViewController: UIViewController {
     
     //Sets orientation to landscape mode
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
+            return .landscape
         }
-    }
 
     //Hides the status bar
     override var prefersStatusBarHidden: Bool {

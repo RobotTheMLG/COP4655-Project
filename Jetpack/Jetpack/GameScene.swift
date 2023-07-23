@@ -49,27 +49,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         playGame()
         
         //Set up game score label
-        scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x:0, y: size.height - 10)
+        scoreLabel = SKLabelNode(text: "SCORE: 0")
+        scoreLabel.position = CGPoint(x: frame.minX + 100, y: frame.maxY - 550)
         scoreLabel.zPosition = 3.0
+        scoreLabel.fontName = "Helvetica-Bold"
         scoreLabel.fontColor = .white
         scoreLabel.fontSize = 20
+        
         addChild(scoreLabel)
     }
     
     //Set screen safe zone
     private var playableRect: CGRect {
-        if let view = self.view {
-            let safeArea = view.safeAreaInsets
-            let width = self.size.width - safeArea.left - safeArea.right
-            let height = self.size.height - safeArea.top - safeArea.bottom - scoreLabel.frame.height
-            return CGRect(x: safeArea.left, y: safeArea.bottom, width: width, height: height)
-        }
+        // Define your custom boundaries for x and y
+        let minX: CGFloat = -400
+        let maxX: CGFloat = -400
+        let minY: CGFloat = -300
+        let maxY: CGFloat = 300
         
-        else {
-            return self.frame
-        }
+        // Calculate the width and height based on the custom boundaries
+        let width = maxX - minX
+        let height = maxY - minY
+        
+        return CGRect(x: minX, y: minY, width: width, height: height)
     }
+
     
     //Function to play background music
     func playBackgroundMusic() {
@@ -143,7 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(enemy)
         
         //Set up border body
-        let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+        let borderBody = SKPhysicsBody(edgeLoopFrom: playableRect)
             self.physicsBody = borderBody
             self.physicsBody?.categoryBitMask = obstacleCategory
             self.physicsBody?.collisionBitMask = playerCategory
@@ -186,7 +190,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      func playGame() {
          // Reset score
          score = 0
-         scoreLabel?.text = "Score: \(score)"
+         scoreLabel?.text = "SCORE: \(score)"
          addScore()
          
          //Spawn obstacles at regular intervals
@@ -250,8 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          removeAction(forKey: "spawnObstacles")
          removeAction(forKey: "updateScore")
          
-         // Implement game over logic here
-         // Show "Game Over" text, player score, and reset button
+         //Show "Game Over" text, player score, and reset button
      }
     
 }
