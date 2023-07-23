@@ -1,12 +1,23 @@
+//==========================================================================================
+// PROGRAMMERS: Luis K. Pena, Waseem Hussain Syed, Jorge Cortes and David Parra
 //
-//  AppDelegate.swift
-//  Jetpack
+// CLASS: COP4655
+// SECTION: RVCC
+// SEMESTER: Summer 2023
+// CLASSTIME: Online
 //
-//  Created by Kharlo Pena on 7/11/23.
+// Project: Space CATDet is a single player game in short bursts where the player
+//          will try to catch as many space fish on screen as possible in a set
+//          amount of time.
 //
+// CERTIFICATION: I understand FIU’s academic policies, and I certify that this work is my
+//                 own and that none of it is the work of any other person.
+//==========================================================================================
 
+//Imports
 import UIKit
 
+//This is the main class
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

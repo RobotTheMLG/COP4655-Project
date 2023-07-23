@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE14AFDA2A6CB15100DA18E3 /* TimeLapse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE14AFD92A6CB15100DA18E3 /* TimeLapse.mp3 */; };
 		CED7F15A2A5E1AAF0076BB0C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED7F1592A5E1AAF0076BB0C /* AppDelegate.swift */; };
 		CED7F15C2A5E1AAF0076BB0C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = CED7F15B2A5E1AAF0076BB0C /* GameScene.sks */; };
 		CED7F15E2A5E1AAF0076BB0C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = CED7F15D2A5E1AAF0076BB0C /* Actions.sks */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE14AFD92A6CB15100DA18E3 /* TimeLapse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TimeLapse.mp3; sourceTree = "<group>"; };
 		CED7F1562A5E1AAF0076BB0C /* Jetpack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jetpack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED7F1592A5E1AAF0076BB0C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CED7F15B2A5E1AAF0076BB0C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				CED7F1612A5E1AB00076BB0C /* GameViewController.swift */,
 				CED7F18C2A5E1E940076BB0C /* Obstacle.swift */,
 				CED7F1632A5E1AB00076BB0C /* Main.storyboard */,
+				CE14AFD92A6CB15100DA18E3 /* TimeLapse.mp3 */,
 				CED7F1662A5E1AB00076BB0C /* Assets.xcassets */,
 				CED7F1682A5E1AB00076BB0C /* LaunchScreen.storyboard */,
 			);
@@ -241,6 +244,7 @@
 				CED7F1652A5E1AB00076BB0C /* Main.storyboard in Resources */,
 				CED7F15C2A5E1AAF0076BB0C /* GameScene.sks in Resources */,
 				CED7F1672A5E1AB00076BB0C /* Assets.xcassets in Resources */,
+				CE14AFDA2A6CB15100DA18E3 /* TimeLapse.mp3 in Resources */,
 				CED7F16A2A5E1AB00076BB0C /* LaunchScreen.storyboard in Resources */,
 				CED7F15E2A5E1AAF0076BB0C /* Actions.sks in Resources */,
 			);
