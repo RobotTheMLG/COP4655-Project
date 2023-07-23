@@ -23,6 +23,8 @@ import AVFoundation
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Private global variables
+    private var restartButton: SKSpriteNode!
+    private var isGameOver = false
     private var backgroundMusicPlayer: AVAudioPlayer?
     private var player: SKSpriteNode!
     private var enemy: SKSpriteNode!
@@ -37,6 +39,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Initial game scene set up
     override func didMove(to view: SKView) {
+        
+        // Remove any existing restart button from the scene
+        enumerateChildNodes(withName: "restartButton") { (node, _) in
+            node.removeFromParent()
+        }
         
         //Set up physics world
         physicsWorld.contactDelegate = self
@@ -187,10 +194,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
      
+        if isGameOver {
+            // Check if the restart button is tapped
+            if restartButton.contains(touchLocation) {
+                restartGame()
+                return
+            }
+        }
+        
         if player.contains(touchLocation) {
             isMovingPlayer = true
         }
     }
+
      
      //Function to have catstronaut follow player touch
      override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -244,6 +260,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          //Create obstacle
          let obstacle = enemy.copy() as! SKSpriteNode
          obstacle.position = CGPoint(x: frame.maxX - obstacle.size.width, y: frame.midY)
+         obstacle.name = "obstacle" // Set a name for the obstacle
          addChild(obstacle)
 
          //Apply an initial impulse to the obstacle to move it
@@ -260,6 +277,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      }
      
     func didBegin(_ contact: SKPhysicsContact) {
+        if isGameOver {
+            return
+        }
         if contact.bodyA.categoryBitMask == playerCategory && contact.bodyB.categoryBitMask == obstacleCategory {
             gameOver()
             
@@ -273,18 +293,72 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          scoreLabel?.text = "Score: \(score)"
      }
      
+    func setupRestartButton() {
+        // Create the restart button
+        restartButton = SKSpriteNode(imageNamed: "restartbutton")
+        restartButton.position = CGPoint(x: frame.midX, y: frame.midY - 100)
+        restartButton.zPosition = 4.0 // Ensure the button is above the "Game Over" label
+        restartButton.size = CGSize(width: 150, height: 50) // Adjust the button size if needed
+        restartButton.name = "restartButton" // Set a name for the button
+
+        addChild(restartButton) // Add the restartButton to the scene
+    }
+
+    
+    func restartGame() {
+        // Remove the "Game Over" label from the scene
+        enumerateChildNodes(withName: "gameOverLabel") { (node, _) in
+            node.removeFromParent()
+        }
+
+        // Remove any remaining obstacles from the scene
+        enumerateChildNodes(withName: "obstacle") { (node, _) in
+            node.removeFromParent()
+        }
+
+        // Reset player position and velocity
+        player.position = CGPoint(x: frame.midX, y: frame.midY)
+        player.physicsBody?.velocity = CGVector.zero
+
+        // Remove the restartButton from the scene
+        restartButton.removeFromParent()
+
+        // Add the player sprite back to the scene
+        addChild(player)
+
+        // Reset score and restart the spawning and scoring actions
+        isGameOver = false
+        score = 0
+        scoreLabel.text = "SCORE: \(score)"
+        playGame()
+    }
+
+
+
+
+
     func gameOver() {
+        isGameOver = true
+
         // Stop obstacle spawning and score updating actions
         removeAction(forKey: "spawnObstacles")
         removeAction(forKey: "updateScore")
-        
-        // Show "Game Over" text, player score, and reset button
+
+        // Remove the player from the scene
+        enemy.removeFromParent()
+        player.removeFromParent()
+
+        // Show "Game Over" text
         let gameOverLabel = SKLabelNode(text: "Game Over")
         gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         gameOverLabel.fontName = "Helvetica-Bold"
         gameOverLabel.fontColor = .red
         gameOverLabel.fontSize = 50
+        gameOverLabel.name = "gameOverLabel" // Set a name for the label
         addChild(gameOverLabel)
+
+        // Set up and display the restart button
+        setupRestartButton()
     }
     
 }
