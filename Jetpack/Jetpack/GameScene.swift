@@ -112,7 +112,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Function to create player catstronaut sprite
     func createPlayerSprite() {
-        player = SKSpriteNode(imageNamed: "catstronaut")
+        player = SKSpriteNode(imageNamed: "Catstronaut")
         player.position = CGPoint(x: frame.midX, y: frame.midY)
         self.player.zPosition = 2.0
         player.size.height = 70
