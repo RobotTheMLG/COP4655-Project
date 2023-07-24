@@ -263,8 +263,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          obstacle.name = "obstacle" // Set a name for the obstacle
          addChild(obstacle)
 
-         //Apply an initial impulse to the obstacle to move it
-         let initialImpulse = CGVector(dx: -300, dy: 100)
+         // Apply a random initial impulse to the obstacle to move it towards the left
+         let minImpulseY: CGFloat = -100
+         let maxImpulseY: CGFloat = 100
+         let randomImpulseY = CGFloat.random(in: minImpulseY...maxImpulseY)
+         let initialImpulse = CGVector(dx: -300, dy: randomImpulseY)
          obstacle.physicsBody = SKPhysicsBody(circleOfRadius: obstacle.size.width / 2)
          obstacle.physicsBody?.categoryBitMask = obstacleCategory
          obstacle.physicsBody?.collisionBitMask = playerCategory | obstacleCategory
